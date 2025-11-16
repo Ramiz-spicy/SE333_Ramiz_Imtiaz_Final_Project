@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MegaVulnService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Commons Lang</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">MegaVulnService.java</span></div><h1>MegaVulnService.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.io.*;
+import java.security.MessageDigest;
+import java.sql.*;
+import java.util.Random;
+
+<span class="nc" id="L8">public class MegaVulnService {</span>
+
+<span class="nc" id="L10">    private String hardcodedPassword = &quot;secret123&quot;;</span>
+
+    public void handleRequest(String userInput, String fileName, String cmd) throws Exception {
+
+<span class="nc" id="L14">        Connection conn = DriverManager.getConnection(</span>
+                &quot;jdbc:mysql://localhost/test&quot;, &quot;root&quot;, &quot;password&quot;
+        );
+<span class="nc" id="L17">        Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L18">        stmt.executeQuery(&quot;SELECT * FROM users WHERE name = '&quot; + userInput + &quot;'&quot;);</span>
+
+<span class="nc" id="L20">        Runtime.getRuntime().exec(cmd);</span>
+
+<span class="nc" id="L22">        File f = new File(&quot;/var/data/&quot; + fileName);</span>
+<span class="nc" id="L23">        FileInputStream fis = new FileInputStream(f);</span>
+
+<span class="nc" id="L25">        MessageDigest md5 = MessageDigest.getInstance(&quot;MD5&quot;);</span>
+<span class="nc" id="L26">        md5.update(userInput.getBytes());</span>
+
+<span class="nc" id="L28">        Random r = new Random();</span>
+<span class="nc" id="L29">        int x = r.nextInt();</span>
+
+<span class="nc" id="L31">        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(&quot;data.bin&quot;));</span>
+<span class="nc" id="L32">        Object obj = ois.readObject();</span>
+
+<span class="nc" id="L34">        ClassLoader cl = ClassLoader.getSystemClassLoader();</span>
+<span class="nc" id="L35">        cl.loadClass(userInput);</span>
+
+<span class="nc" id="L37">        System.out.println(&quot;Hello &quot; + userInput);</span>
+<span class="nc" id="L38">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

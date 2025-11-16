@@ -1,0 +1,54 @@
+{
+  "name": "testgen-mcp",
+  "version": "1.0.0",
+  "description": "MCP tool that analyzes Java, generates JUnit tests, runs Maven tests, and parses results.",
+  "entry": "mcp_server.py",
+  "dependencies": {
+    "python": ">=3.10"
+  },
+  "tools": {
+    "parse_java": {
+      "description": "Parse Java source and extract method signatures.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "file_path": { "type": "string" }
+        },
+        "required": ["file_path"]
+      }
+    },
+    "generate_tests": {
+      "description": "Generate JUnit tests for provided method signatures.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "class_name": { "type": "string" },
+          "output_path": { "type": "string" },
+          "methods": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "params": { "type": "array", "items": { "type": "string" } },
+                "return_type": { "type": "string" }
+              },
+              "required": ["name", "params", "return_type"]
+            }
+          }
+        },
+        "required": ["class_name", "output_path", "methods"]
+      }
+    },
+    "run_tests": {
+      "description": "Run Maven tests and return parsed results.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_path": { "type": "string" }
+        },
+        "required": ["project_path"]
+      }
+    }
+  }
+}
