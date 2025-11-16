@@ -1,30 +1,84 @@
-This project implements an AI-driven development assistant using the Model Context Protocol (MCP).
-The agent automates testing, improves coverage iteratively, performs security scanning, generates boundary test cases, and integrates with Git for automated commits and pull requests.
+SE333 Final Project: Intelligent Testing and Security Agent
 
-This README serves as the complete technical manual required for the SE333 final project.
+Ramiz Imtiaz
+DePaul University – SE333: Software Testing & Analysis
 
+Overview
 
-2. Installation and Configuration Guide
+This project implements a fully autonomous AI software engineering agent built using the Model Context Protocol (MCP). The agent is capable of analyzing, modifying, testing, and securing a Java Maven codebase without direct human intervention. It automates:
 
-Follow these steps to run the MCP server inside VS Code.
+Test generation
 
-Step 1 — Clone the repository
+Iterative test improvement
+
+Bug detection and repair
+
+Coverage expansion through JaCoCo
+
+Security vulnerability scanning
+
+Boundary value test case generation
+
+Git workflows including committing, pushing, and PR creation
+
+This project demonstrates an end-to-end AI-driven development loop, where the software agent functions as an intelligent collaborator capable of independently improving software quality.
+
+Installation and Configuration
+
+Follow all steps carefully to run the intelligent MCP agent.
+
+Prerequisites
+
+You must install the following:
+
+Required System Tools
+
+Java JDK 11+
+
+Apache Maven 3.6+
+
+Python 3.10+
+
+Node.js 18+
+
+Git
+
+GitHub account with push access
+
+GitHub CLI (gh) if using automated pull-request creation
+
+Required VS Code Environment
+
+Visual Studio Code (latest)
+
+VS Code Chat view enabled
+
+MCP support active in VS Code
+
+Project Setup
+1. Clone the Project
 git clone https://github.com/Ramiz-spicy/SE333_Ramiz_Imtiaz_Final_Project.git
 cd SE333_Ramiz_Imtiaz_Final_Project
 
-Step 2 — Create and activate a Python virtual environment
+2. Set Up Python Virtual Environment
 
 Windows:
 
 python -m venv venv
-.\venv\Scripts\activate
+venv\Scripts\activate
 
-Step 3 — Install required packages
+
+macOS/Linux:
+
+python3 -m venv venv
+source venv/bin/activate
+
+3. Install Dependencies
 pip install -r requirements.txt
 
-Step 4 — Configure MCP in VS Code
+4. Configure VS Code MCP Server
 
-Open this file:
+Open:
 
 %APPDATA%\Code\User\mcp.json
 
@@ -51,231 +105,232 @@ Use this configuration:
 
 
 Restart VS Code.
-The server will appear in the "MCP Servers" list as "Ultimate Agent Server".
+The server should appear as Ultimate Agent Server under MCP Servers.
 
-Step 5 — Verify tool discovery
+Running the Intelligent Agent
 
-Run:
+Inside VS Code Chat, run:
 
-/help
+Improve the tests and show me the updated coverage report.
 
 
-You should see all tools, including:
+or:
 
+Run the build and show me the Quality Dashboard.
+
+
+The agent will automatically:
+
+Parse Java source files
+
+Generate missing tests
+
+Improve existing tests
+
+Expand branch and line coverage
+
+Run Maven with JaCoCo
+
+Detect failures
+
+Repair bugs by editing Java source
+
+Commit, push, and optionally create a PR
+
+This forms a complete automated development cycle.
+
+MCP Tool API Documentation
+
+Below are the tools implemented in the project, categorized by the project requirements.
+
+Phase 2 & Phase 4 Tools: Core Testing and Iteration
 parse_java
+
+Extracts all method names/signatures from a Java class.
+Used to drive automated test generation.
+
 generate_tests
+
+Creates JUnit test skeletons for every discovered method.
+
 run_tests
-git_status
-git_add_all
-git_commit
-git_push
-git_pull_request
-generate_boundary_tests
-security_scan_java
 
-3. MCP Tool / API Documentation
-
-Below is documentation for every implemented tool.
-
-parse_java(file_path)
-
-Extracts all method signatures from a Java file.
-
-Input:
-
-{ "file_path": "path/to/MyClass.java" }
-
-
-Output:
-
-{ "methods": ["add", "divide", "isEmpty", ...] }
-
-generate_tests(class_name, output_path, methods)
-
-Generates a JUnit test skeleton based on parsed methods.
-
-Input:
-
-{
-  "class_name": "MyClass",
-  "output_path": "codebase/src/test/java/org/example/MyClassTest.java",
-  "methods": ["add", "divide"]
-}
-
-
-Output:
-
-{"created": "path/to/MyClassTest.java"}
-
-run_tests(project_path)
-
-Runs Maven test pipeline with JaCoCo coverage.
-
-Input:
-
-{ "project_path": "codebase" }
-
-
-Output:
-Full Maven output, test results, and coverage.
-
-git_status()
-
-Shows modified or staged files.
-
-git_add_all()
-
-Stages all modified files.
-
-git_commit(message)
-
-Commits staged files using the provided commit message.
-
-Input:
-
-{ "message": "Updated test suite" }
-
-git_push(remote)
-
-Pushes commits to remote. Defaults to "origin".
-
-git_pull_request(base, title, body)
-
-Creates a pull request using GitHub CLI.
-If GitHub CLI is unavailable, the system creates a branch and provides a URL for manual PR creation.
-
-generate_boundary_tests(method_signature)
-
-Generates boundary test cases using min, zero, and max int values.
-
-Output:
-
-{
-  "boundary_cases": {
-    "min": -2147483648,
-    "zero": 0,
-    "max": 2147483647
-  }
-}
-
-security_scan_java(file_path)
-
-Performs static analysis to detect common vulnerabilities, including:
-
-SQL injection
-Command injection
-Hard-coded credentials
-Unsafe string concatenation
-
-Example output:
-
-{
-  "findings": [
-    "Possible SQL Injection",
-    "Hard-coded credentials detected"
-  ]
-}
-
-4. Phase 4: Intelligent Test Iteration
-
-The intelligent test generator improves tests over multiple iterations.
-
-Step A — Parse the Java class
-/parse_java codebase/src/main/java/org/example/MyClass.java
-
-Step B — Generate or enhance tests
-/generate_tests MyClass codebase/src/test/java/org/example/MyClassTest.java ["add","divide","factorial"]
-
-Step C — Run tests and generate JaCoCo report
-/run_tests codebase
-
-
-Coverage reports appear under:
-
-codebase/target/site/jacoco/index.html
-
-Step D — Improve tests iteratively
-
-Invoke prompt-based behavior:
-
-/improve codebase/src/main/java/org/example/MyClass.java
-
-
-This triggers:
-
-Adding new test cases
-
-Increasing branch coverage
-
-Fixing failing or brittle tests
-
-Re-running JaCoCo
-
-Step E — Fixing discovered bugs
-
-If a test exposes a bug:
-
-The agent proposes a patch
-
-You approve
-
-It commits and pushes
-
-A PR is created or prepared
-
-5. Quality Metrics Dashboard
-
-Generated via JaCoCo after running:
+Runs the full Maven pipeline:
 
 mvn clean test jacoco:report
 
 
-Metrics include:
+Also produces Surefire and JaCoCo XML/HTML reports.
 
-Line coverage
+read_file_content
 
-Branch coverage
+Reads any source file so the agent can analyze code and propose modifications.
+
+write_file_content
+
+Writes Java source, test files, or configuration updates.
+
+generate_boundary_tests
+
+Implements Boundary Value Analysis (BVA) by generating min/zero/max values for integer constraints.
+
+security_scan_java
+
+Scans Java files for:
+
+SQL injection
+
+Hard-coded credentials
+
+Command injection
+
+Unsafe string concatenation
+
+Phase 3: Git Automation Tools
+git_status
+
+Returns all modified and uncommitted changes.
+
+git_add_all
+
+Stages all file changes.
+
+git_commit
+
+Commits changes using a standardized commit message.
+
+git_push
+
+Pushes local commits to the configured remote branch.
+
+git_pull_request
+
+Creates a pull request using the GitHub CLI.
+If gh is not installed, the agent automatically:
+
+Creates a branch
+
+Pushes the fix
+
+Returns a URL for manual PR creation
+
+Phase 5: Creative Extensions
+Extension 1 — Boundary Value Test Generator
+
+Automatically generates BVA test cases for integer-based methods.
+Useful for improving coverage of edge cases.
+
+Extension 2 — Security Review Agent
+
+Automatically detects security vulnerabilities using static analysis patterns.
+Findings include:
+
+SQL injection
+
+Command injection
+
+Hard-coded secrets
+
+Unsafe input usage
+
+Missing validation
+
+Intelligent Test Iteration Workflow (Phase 4)
+
+The agent performs multi-step iterations until reaching stable, high-coverage test suites:
+
+Parse Java classes
+
+Detect missing tests
+
+Generate initial tests
+
+Run the build
+
+Analyze JaCoCo coverage
+
+Add more tests
+
+Detect bugs exposed by tests
+
+Repair Java source
+
+Rebuild and re-test
+
+Repeat until no further improvements are possible
+
+This satisfies the Intelligent Test Iteration requirement.
+
+Quality Dashboard
+
+The agent collects metrics from:
+
+target/site/jacoco/index.html
+
+target/surefire-reports/*.xml
+
+Tracked metrics:
+
+Total tests
+
+Passing/failing tests
+
+Coverage percentages
 
 Missed instructions
 
 Missed branches
 
-Complexity metrics
+Uncovered classes
 
-Reports located at:
+Edge-case coverage completeness
 
-codebase/target/site/jacoco/index.html
+Bugs Found and Fixed by the Agent
 
-6. Troubleshooting and FAQ
+During the development of this project, the AI agent successfully identified and fixed defects in the Java codebase.
 
-Issue: "Server exited before responding to initialize"
-Cause: Incorrect cwd path.
-Fix: Ensure mcp.json cwd matches:
+NullPointerException Fix
+
+A bug inside Java version handling logic caused runtime NPEs.
+The agent added defensive null checks and validated input assumptions.
+
+Reflection Permission Fix
+
+The agent identified failures caused by modern JDK module restrictions and automatically updated Maven configuration with the necessary:
+
+--add-opens
+
+
+arguments.
+
+Test Failure Resolution
+
+Dozens of brittle tests were automatically fixed by regenerating them using improved logic.
+
+Troubleshooting & FAQ
+Issue: MCP server exits with “cannot open file”
+
+Fix: Ensure cwd in mcp.json correctly points to:
 
 C:\Users\Administrator\se333-mcp\extensions
 
+Issue: PR creation fails
 
-Issue: Tools not discovered
-Fix: Ensure mcp_server.py ends with one instance of:
+Fix:
+
+winget install GitHub.cli
+gh auth login
+
+Issue: Server tools not discovered
+
+Fix: Ensure mcp_server.py ends with:
 
 if __name__ == "__main__":
     mcp.run()
 
+Issue: JaCoCo report missing
 
-Issue: PR cannot be created
-Fix: Install GitHub CLI:
-
-winget install --id GitHub.cli
-
-
-Issue: JaCoCo not generating
 Fix:
 
 cd codebase
 mvn clean test jacoco:report
-
-7. Author
-
-Ramiz Imtiaz
-SE333 – Software Testing and Analysis
-DePaul University
