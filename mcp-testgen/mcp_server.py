@@ -126,6 +126,7 @@ def security_scan_java(file_path: str):
 
     return {"findings": findings}
 
+# test change
 
 # -------------------------
 # Run MCP server (ONLY ONE!)
