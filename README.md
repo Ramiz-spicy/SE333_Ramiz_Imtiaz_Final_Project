@@ -1,89 +1,87 @@
 SE333 Final Project: Intelligent Testing and Security Agent
 
-Ramiz Imtiaz
-DePaul University – SE333: Software Testing & Analysis
+Author: Ramiz Imtiaz
+Course: SE333 – Software Testing & Analysis
+Institution: DePaul University
 
-Overview
+Project Overview
 
-This project implements a fully autonomous AI software engineering agent built using the Model Context Protocol (MCP). The agent is capable of analyzing, modifying, testing, and securing a Java Maven codebase without direct human intervention. It automates:
+This project implements a fully autonomous AI software engineering agent using the Model Context Protocol (MCP).
+The agent autonomously analyzes, edits, tests, and improves a Java Maven codebase, handling:
 
-Test generation
+Automated JUnit test generation
 
-Iterative test improvement
+Iterative test improvement based on coverage
 
 Bug detection and repair
 
-Coverage expansion through JaCoCo
+Boundary value test case creation
 
-Security vulnerability scanning
+Java security vulnerability scanning
 
-Boundary value test case generation
+Full Git workflow automation
 
-Git workflows including committing, pushing, and PR creation
+Pull request generation through GitHub CLI
 
-This project demonstrates an end-to-end AI-driven development loop, where the software agent functions as an intelligent collaborator capable of independently improving software quality.
+The project demonstrates an AI-driven, end-to-end software development loop designed to enhance code quality and reliability.
 
 Installation and Configuration
 
-Follow all steps carefully to run the intelligent MCP agent.
+Follow the steps below to fully configure and run the agent.
 
 Prerequisites
 
-You must install the following:
+Install all required tools:
 
-Required System Tools
+System Requirements
 
-Java JDK 11+
+Java JDK 11 or higher
 
-Apache Maven 3.6+
+Maven 3.6 or higher
 
-Python 3.10+
+Python 3.10 or higher
 
 Node.js 18+
 
 Git
 
-GitHub account with push access
+GitHub account
 
-GitHub CLI (gh) if using automated pull-request creation
+GitHub CLI (gh) if using automated PR creation
 
-Required VS Code Environment
+VS Code Requirements
 
-Visual Studio Code (latest)
+VS Code (latest version)
 
 VS Code Chat view enabled
 
-MCP support active in VS Code
+MCP support enabled
 
 Project Setup
-1. Clone the Project
+1. Clone the Repository
 git clone https://github.com/Ramiz-spicy/SE333_Ramiz_Imtiaz_Final_Project.git
 cd SE333_Ramiz_Imtiaz_Final_Project
 
 2. Set Up Python Virtual Environment
-
-Windows:
-
+Windows
 python -m venv venv
 venv\Scripts\activate
 
-
-macOS/Linux:
-
+macOS/Linux
 python3 -m venv venv
 source venv/bin/activate
 
-3. Install Dependencies
+3. Install Python Dependencies
 pip install -r requirements.txt
 
-4. Configure VS Code MCP Server
+4. Configure the MCP Server in VS Code
 
-Open:
+Open the MCP config file:
 
 %APPDATA%\Code\User\mcp.json
 
 
-Use this configuration:
+Use the following configuration:
 
 {
   "servers": [
@@ -105,232 +103,246 @@ Use this configuration:
 
 
 Restart VS Code.
-The server should appear as Ultimate Agent Server under MCP Servers.
+The server should appear under MCP Servers as Ultimate Agent Server.
 
-Running the Intelligent Agent
+Running the Agent
 
-Inside VS Code Chat, run:
+Inside VS Code Chat, initiate a full test iteration:
 
 Improve the tests and show me the updated coverage report.
 
 
-or:
+or
 
 Run the build and show me the Quality Dashboard.
 
 
 The agent will automatically:
 
-Parse Java source files
+Parse Java classes
 
-Generate missing tests
+Generate missing test cases
 
 Improve existing tests
 
-Expand branch and line coverage
-
-Run Maven with JaCoCo
+Run Maven tests and JaCoCo
 
 Detect failures
 
-Repair bugs by editing Java source
+Fix bugs
 
-Commit, push, and optionally create a PR
+Regenerate tests
 
-This forms a complete automated development cycle.
+Commit and push updates
+
+Optionally create a pull request
 
 MCP Tool API Documentation
 
-Below are the tools implemented in the project, categorized by the project requirements.
+All tools implemented for testing, iteration, analysis, and Git automation.
 
-Phase 2 & Phase 4 Tools: Core Testing and Iteration
+Phase 2 & Phase 4 Tools: Core Analysis and Iteration
 parse_java
 
-Extracts all method names/signatures from a Java class.
-Used to drive automated test generation.
+Extracts Java method signatures for test generation.
 
 generate_tests
 
-Creates JUnit test skeletons for every discovered method.
+Creates JUnit test skeletons for identified methods.
 
 run_tests
 
-Runs the full Maven pipeline:
+Executes:
 
 mvn clean test jacoco:report
 
 
-Also produces Surefire and JaCoCo XML/HTML reports.
+Generates Surefire XML and JaCoCo test coverage reports.
 
 read_file_content
 
-Reads any source file so the agent can analyze code and propose modifications.
+Reads any project file for analysis or debugging.
 
 write_file_content
 
-Writes Java source, test files, or configuration updates.
+Writes test files, Java source code, or configuration changes.
 
 generate_boundary_tests
 
-Implements Boundary Value Analysis (BVA) by generating min/zero/max values for integer constraints.
+Generates boundary value test cases using integer min/zero/max logic.
 
 security_scan_java
 
-Scans Java files for:
+Detects:
 
 SQL injection
+
+Command injection
 
 Hard-coded credentials
 
-Command injection
+Unsafe parameter concatenation
 
-Unsafe string concatenation
-
-Phase 3: Git Automation Tools
+Phase 3 Tools: Git Automation
 git_status
 
-Returns all modified and uncommitted changes.
+Returns all uncommitted changes.
 
 git_add_all
 
-Stages all file changes.
+Stages all modifications.
 
 git_commit
 
-Commits changes using a standardized commit message.
+Commits changes using a standardized message.
 
 git_push
 
-Pushes local commits to the configured remote branch.
+Pushes the current branch to the remote repository.
 
 git_pull_request
 
-Creates a pull request using the GitHub CLI.
-If gh is not installed, the agent automatically:
+Creates a pull request using GitHub CLI.
+If the CLI is unavailable, the agent:
 
-Creates a branch
+Creates a new branch
 
-Pushes the fix
+Pushes changes
 
-Returns a URL for manual PR creation
+Returns a GitHub URL for manual PR creation
 
-Phase 5: Creative Extensions
-Extension 1 — Boundary Value Test Generator
+Phase 5 Tools: Creative Extensions
+generate_bva_test_cases
 
-Automatically generates BVA test cases for integer-based methods.
-Useful for improving coverage of edge cases.
+Implements Boundary Value Analysis for integer-based constraints.
 
-Extension 2 — Security Review Agent
+security_review_agent
 
-Automatically detects security vulnerabilities using static analysis patterns.
-Findings include:
+Scans Java code for:
 
-SQL injection
-
-Command injection
+Injection vulnerabilities
 
 Hard-coded secrets
 
-Unsafe input usage
+Unsafe patterns
 
 Missing validation
 
-Intelligent Test Iteration Workflow (Phase 4)
+Intelligent Test Iteration (Phase 4)
 
-The agent performs multi-step iterations until reaching stable, high-coverage test suites:
+The agent runs a multi-step automated testing loop:
 
-Parse Java classes
+Parse source code
 
 Detect missing tests
 
-Generate initial tests
+Generate or improve tests
 
-Run the build
+Run Maven build
 
-Analyze JaCoCo coverage
+Analyze coverage
 
 Add more tests
 
-Detect bugs exposed by tests
+Detect and fix exposed bugs
 
-Repair Java source
+Re-run analysis
 
-Rebuild and re-test
+Repeat until coverage stabilizes
 
-Repeat until no further improvements are possible
-
-This satisfies the Intelligent Test Iteration requirement.
+This fully satisfies the Intelligent Test Iteration requirement of the final project.
 
 Quality Dashboard
 
-The agent collects metrics from:
+The agent analyzes:
 
-target/site/jacoco/index.html
+JaCoCo coverage reports
 
-target/surefire-reports/*.xml
+Surefire XML test results
 
-Tracked metrics:
+Metrics tracked:
 
 Total tests
 
 Passing/failing tests
 
-Coverage percentages
+Line and branch coverage
 
 Missed instructions
 
-Missed branches
-
 Uncovered classes
 
-Edge-case coverage completeness
+Edge-case coverage improvements
 
 Bugs Found and Fixed by the Agent
-
-During the development of this project, the AI agent successfully identified and fixed defects in the Java codebase.
-
 NullPointerException Fix
 
-A bug inside Java version handling logic caused runtime NPEs.
-The agent added defensive null checks and validated input assumptions.
+The agent identified a NullPointerException in version-handling logic and inserted appropriate null checks.
 
-Reflection Permission Fix
+Reflection Access Fix
 
-The agent identified failures caused by modern JDK module restrictions and automatically updated Maven configuration with the necessary:
+The agent detected module-access failures and updated Maven with:
 
 --add-opens
 
 
-arguments.
+to resolve InaccessibleObjectException.
 
-Test Failure Resolution
+Broken Test Repairs
 
-Dozens of brittle tests were automatically fixed by regenerating them using improved logic.
+Multiple failing tests were automatically regenerated using improved logic.
 
-Troubleshooting & FAQ
-Issue: MCP server exits with “cannot open file”
+Troubleshooting and FAQ
+MCP server reports "cannot open file"
 
-Fix: Ensure cwd in mcp.json correctly points to:
+Ensure:
 
-C:\Users\Administrator\se333-mcp\extensions
+cwd = C:\Users\Administrator\se333-mcp\extensions
 
-Issue: PR creation fails
+Pull request creation fails
 
-Fix:
+Install GitHub CLI:
 
 winget install GitHub.cli
 gh auth login
 
-Issue: Server tools not discovered
+Tools not discovered
 
-Fix: Ensure mcp_server.py ends with:
+Ensure mcp_server.py ends with:
 
 if __name__ == "__main__":
     mcp.run()
 
-Issue: JaCoCo report missing
+Coverage report missing
 
-Fix:
+Run:
 
-cd codebase
 mvn clean test jacoco:report
+
+Conclusion
+
+This project demonstrates a complete autonomous software engineering agent capable of:
+
+Understanding the codebase
+
+Generating and enhancing JUnit tests
+
+Fixing defects
+
+Performing static security analysis
+
+Expanding test coverage
+
+Handling Git automation
+
+Creating pull requests
+
+It satisfies all requirements for:
+
+Phase 2: Core Tools
+
+Phase 3: Git Automation
+
+Phase 4: Intelligent Test Iteration
+
+Phase 5: Creative Extensions
