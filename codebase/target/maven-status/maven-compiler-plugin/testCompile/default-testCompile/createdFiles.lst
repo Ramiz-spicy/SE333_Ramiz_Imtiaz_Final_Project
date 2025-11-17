@@ -265,6 +265,7 @@ org\apache\commons\lang3\text\ExtendedMessageFormatTest$LowerCaseFormatFactory.c
 org\apache\commons\lang3\time\FastDateFormat_ParserTest.class
 org\apache\commons\lang3\reflect\TypeUtilsTest.class
 org\apache\commons\lang3\reflect\MethodUtilsTest$InheritanceBean.class
+org\example\decisionTests.class
 org\apache\commons\lang3\text\StrBuilderAppendInsertTest$5.class
 org\apache\commons\lang3\tuple\PairTest.class
 org\apache\commons\lang3\builder\HashCodeBuilderTest$TestObjectWithMultipleFields.class
