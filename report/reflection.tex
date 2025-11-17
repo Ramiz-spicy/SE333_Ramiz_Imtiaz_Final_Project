@@ -1,0 +1,128 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{AI Testing \& Security Agent: Project Reflection}}\\[0.5cm]
+\end{center}
+
+\section*{Abstract}
+I built a fully autonomous AI software engineering agent using the Model Context Protocol (MCP) that can iteratively test, analyze, and repair a Java Maven codebase. Beyond just generating basic tests and fixing bugs, I extended the system with some pretty cool features: specification-based test generators, a static security scanner, taint analysis, and a CVE-based dependency checker. The agent actually improved test coverage, caught configuration and runtime bugs, and found several security issues. This reflection walks through the engineering process, what improved, the security insights I gained, and what I learned about AI-assisted development.
+
+\section{Introduction}
+Autonomous software engineering agents are becoming real, practical tools for CI/CD, testing, and quality improvement. I used MCP as the foundation to build a multi-stage intelligent agent that handles test generation, bug detection, security auditing, and development automation. The goal was to see how well an AI agent could actually maintain and improve a real Java Maven project through repeated refinement cycles.
+
+What makes this different from traditional automated testing tools is that I added advanced extensions like boundary-value test generation, equivalence-class reasoning, decision-table analysis, and static security pattern detection. Together, these components turned the agent into a pretty comprehensive quality-assurance toolchain.
+
+\section{How I Built It}
+The agent's workflow has four main phases: running tests, analyzing coverage, automatically enhancing tests, and detecting bugs and security issues. I implemented this through a set of MCP tools.
+
+\subsection{Automated Build and Coverage Analysis}
+I created tools like \texttt{run\_maven\_test}, \texttt{get\_quality\_dashboard}, \texttt{get\_test\_failures}, and \texttt{get\_missing\_coverage} that execute full Maven builds, collect Surefire and JaCoCo reports, and pinpoint exactly which lines aren't tested or which methods are failing.
+
+\subsection{Specification-Based Test Generation}
+I implemented three advanced test generators:
+
+\begin{itemize}
+    \item \textbf{Boundary Value Analysis Generator:} Extracts numerical parameters from method signatures and creates tests using boundary values like \{-1, 0, 1, 100\}
+    \item \textbf{Equivalence Class Generator:} Produces representative tests for valid, invalid, and edge-case categories
+    \item \textbf{Decision Table Generator:} Parses conditional logic (like boolean combinations in if statements) and generates tests to cover all possible truth-table combinations
+\end{itemize}
+
+These tools really expanded test depth and made sure that input partitions and branching logic got thoroughly covered.
+
+\section{Security Analysis Extensions}
+I added two major security features:
+
+\subsection{Static Security Analyzer}
+This custom tool scans Java files for common vulnerabilities:
+
+\begin{itemize}
+    \item SQL injection patterns through string concatenation
+    \item Command injection via \texttt{Runtime.exec}
+    \item Weak cryptography like MD5 and SHA-1
+    \item Insecure randomness (using \texttt{Random} instead of \texttt{SecureRandom})
+    \item Path traversal risks with user-controlled input
+    \item Hard-coded secrets like passwords and API keys
+\end{itemize}
+
+I also built in lightweight taint analysis to track when \texttt{request.getParameter()} inputs flow into dangerous sinks.
+
+\subsection{CVE Dependency Scanner}
+This tool analyzes project dependencies using Maven's JSON dependency tree and cross-references them against a CVE database. It reports:
+
+\begin{itemize}
+    \item Identified CVEs
+    \item CVSS severity scores
+    \item Recommended fixed versions
+    \item Overall project risk score
+\end{itemize}
+
+\section{Git Automation}
+The agent handles all version control operations automatically—staging, committing, pushing, and creating pull requests. This lets the entire refinement loop run without me having to touch anything.
+
+\section{What Happened}
+
+\subsection{Coverage Improvements}
+Coverage increased steadily with each iteration. Initially, only basic arithmetic methods were covered. After I integrated the specification-based generators, previously untested logic—especially branches in \texttt{max()}, \texttt{min()}, \texttt{divide()}, and \texttt{factorial()}—started getting meaningful coverage. The decision-table testing tool was particularly effective for comprehensive condition coverage.
+
+The agent's ability to read JaCoCo XML reports and generate targeted tests turned out to be a really reliable way to incrementally improve things.
+
+\subsection{Bug Detection and Automated Fixes}
+During development, the system caught and fixed several issues:
+
+\begin{itemize}
+    \item A NullPointerException in Java version parsing logic
+    \item A reflection-access error that needed \texttt{--add-opens} flags in Surefire
+    \item Multiple failing tests caused by incorrect configuration between JaCoCo and Surefire
+\end{itemize}
+
+The automated repair mechanism let the agent apply small, targeted changes to the codebase, which really showed the value of autonomous debugging loops.
+
+\subsection{Security Findings}
+The security tools uncovered multiple risks:
+
+\begin{itemize}
+    \item Potential SQL injection vulnerabilities from unsafe string concatenation
+    \item Use of MD5 hashing (flagged as weak cryptography)
+    \item Hard-coded secrets in sample classes
+    \item Tainted input flowing into file constructors
+\end{itemize}
+
+On top of that, dependency scanning flagged a Log4j version with a known critical CVE and suggested upgrading to a safe version.
+
+These results showed that integrating security analysis into the testing loop really broadened what the agent could do beyond just checking if the code works.
+
+\section{What I Learned About AI-Assisted Development}
+A few things stood out:
+
+\begin{itemize}
+    \item AI excels at repetitive, structured tasks like test generation and coverage scanning. It doesn't get bored or make careless mistakes.
+    \item Combining static patterns with taint analysis gives you powerful security insights without much computational overhead.
+    \item Automated configuration debugging (like fixing InaccessibleObjectException) has real practical value in actual builds.
+    \item Security-focused reasoning makes the agent way more useful for enterprise-grade workflows.
+\end{itemize}
+
+Overall, AI assistance sped up development by cutting down on manual debugging time and making everything more consistent.
+
+\section{Ideas for Future Improvements}
+Here's what I'd add if I kept working on this:
+
+\begin{itemize}
+    \item Integrate symbolic execution to reach deeper semantic paths
+    \item Expand CVE data ingestion using live NVD feeds
+    \item Apply machine learning to prioritize generated tests based on which ones catch the most bugs
+    \item Add automated patch verification to make sure fixes don't break existing behavior
+\end{itemize}
+
+\section{Conclusion}
+This project proved that an MCP-powered AI agent can autonomously analyze, refine, and secure a real Java codebase. Through iterative testing, bug fixing, security scanning, and dependency auditing, the system delivered measurable quality improvements. The combination of functional and security-focused extensions worked especially well, showing that AI-driven engineering assistants can genuinely enhance modern software development pipelines.
+
+\end{document}
